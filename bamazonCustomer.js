@@ -30,7 +30,7 @@ var bamazonCustomer = {
     purchase : function() {
         inquirer
         .prompt([{
-            message: 'Enter id of item you would like to purchase:',
+            message: 'Enter ID of item you would like to purchase:',
             name: 'itemID',
             validate: function(input) {
                 var done = this.async();
