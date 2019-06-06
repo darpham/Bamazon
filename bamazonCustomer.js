@@ -31,7 +31,17 @@ var bamazonCustomer = {
         inquirer
         .prompt([{
             message: 'Enter id of item you would like to purchase:',
-            name: 'itemID'
+            name: 'itemID',
+            validate: function(input) {
+                var done = this.async();
+                setTimeout(function() {
+                    if (isNaN(input)) {
+                        done('You need enter a number');
+                        return;
+                    }
+                    done(null, true);
+                }, 1000);
+            }
         },
         {
             message: 'How much would you like to purchase?',
