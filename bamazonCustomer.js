@@ -56,16 +56,35 @@ var bamazonCustomer = {
                     console.log('Purchase Failed')
                     console.log('Sorry! We only have ' +results[0].stock_quantity+ ' left in stock')
                 } else {
-                    bamazonCustomer.completeOrder(answers.itemID, answers.amount)
-                    
+                    inquirer
+                    .prompt([{
+                        message: 'Order Total: ' + (answers.amount*results[0].price) + '\nWould you like to complete?',
+                        type: 'confirm',
+                        name: 'order'
+                    }])
+                    .then(response => {
+                        if (response.order) {
+                            bamazonCustomer.completeOrder(answers.itemID, answers.amount, results[0].stock_quantity)
+                        } else {
+                            console.log('Order Cancelled :(')
+                            process.exit()
+                        }
+                    })
                 }
             });
         });
     },
-    completeOrder : function(productID, amount) {
-
+    completeOrder : function(productID, amount, stock) {
+        var newStock = stock - amount
+        query = 'UPDATE products SET stock_quantity = ' +newStock+ ' WHERE id = ' + productID
+        // console.log(query)
+        connection.query(query, function (err, results, fields) {
+            if (err) throw err;
+            // console.log(results)
+        });
         console.log('Purchase complete! \nThank you for your business (^-^)/')
-    }
+        process.exit()
+    },
 }
 
 bamazonCustomer.listStock()
