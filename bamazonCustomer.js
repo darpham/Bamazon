@@ -1,9 +1,7 @@
 require('dotenv').config()
 const mysql = require('mysql'),
-      path = require('path'),
-      fs = require('fs'),
-      inquirer = require('inquirer')
-
+      inquirer = require('inquirer'),
+      cTable = require('console.table');
 
 connection = mysql.createConnection({
     host: 'localhost',
@@ -20,10 +18,7 @@ var bamazonCustomer = {
         query = 'SELECT id, product_name, price FROM products WHERE stock_quantity > 0'
         connection.query(query, function (err, results, fields) {
             if (err) throw err;
-            console.log('ID  Product Name         Price')
-            for (var i=0; i < results.length; i++) {
-                console.log(results[i].id, results[i].product_name, results[i].price)
-            }
+            console.table(results)
             bamazonCustomer.purchase()
         });
     },
