@@ -28,3 +28,5 @@ Play around as the customer and order items:
 * Enter ID of item you want to purchase
 * Enter quantity
 * Confirm order
+
+![Ordering Example](public/bamazon_example.png)
